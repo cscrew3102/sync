@@ -1,0 +1,51 @@
+#msg_frame{
+  position: fixed;
+  top:0;left:0;
+  width: 100%;
+  height:100%;
+  overflow: hidden;
+  background: rgba(0,0,0,0.5);
+  z-index: 99999999;
+}
+#msg_frame .system_msg{
+  position: absolute;
+  width:100%;
+  height:250px;
+  top:50%;
+  left:0;
+  margin-top: -135px;
+  background: #e7e6e6;
+  border:1px 0 solid #0fb5e9;
+  box-shadow:0 0 2px #4f4f4f;
+}
+#msg_frame .inline_msg{
+  position: absolute;
+  width:600px;
+  height: 100%;
+  left:50%;
+  margin-left: -300px;
+}
+#msg_frame .system_msg h3{
+  padding:10px 20px;
+  color: #084060;
+  text-align: center;
+  font-family:Roboto,arial,sans-serif;
+}
+#msg_frame .system_msg .text{
+  color: #000;
+  font-family:Roboto,arial,sans-serif;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+#msg_frame .system_msg .btn_msg{
+  text-align: center;
+  position: absolute;
+  padding: 20px;
+  width: 100%;
+  bottom: 0px;
+}
+
+#msg_frame .system_msg .btn_msg button{
+  padding:7px 30px;
+}
