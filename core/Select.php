@@ -48,7 +48,8 @@ class Select implements Iterator{
 			$connection = Connect::getConnection();
 			$this->_query = mysqli_query($connection, $this->_sql);
 			if(!$this->_query){
-				throw new Exception('Failed to read database:'.mysqli_error($connection));
+				throw new Exception('Failed to read database');
+				exit();
 			}
 		}
 		return $this->_query;

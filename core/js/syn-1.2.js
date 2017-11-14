@@ -10,25 +10,24 @@ function end_loading(){
     document.getElementById('prelod').remove();
 }
 
-function error_msg(type,text){
+function error_msg(type=1,text='~'){
+    $("#msg_frame").remove();
+    if(text ==='empty'){ var string="there are still empty of data that need to be completed, please check your data again";
+    }else if(text === '~'){ var string ="there is an error in our system, please contact administrator";
+    }else{ var string = text;}
 
     var div = document.createElement("div");
-    if(type == '1'){
-        title = "! Information";
-    }else if(type == '2'){
-        title = "! Notification";
-    }else{
-        title = "! Warning";
-    }
+    if(type == '1'){ title = "Information !"; col = "green"; }else if(type == '2'){ title = "Notification !"; col = "orange";
+    }else{ title = "Warning !"; col ="red"; }
     div.id="msg_frame";
-    msg = "<div class='system_msg'><div class='inline_msg'>"+
-          "<div class='title'><h3>"+title+"</h3></div>"+
-          "<div class='text'>"+text+"</div>"+
-          '<div class="btn_msg"><button type="button" class="btn btn-primary btn-lg" onclick=close_msg("msg_frame")> close </button></div>'+
-          "</div></div>";
+    msg = "<div class='system_msg'><div class='col-sm-3'></div><div class='inline_msg col-sm-6'>"+
+          "<div class='title'><h3 style='color:"+col+"'>"+title+"</h3></div>"+
+          "<div class='text'>"+string+"</div>"+
+          '<div class="btn_msg t_align_center" style="margin-left:-20px"><center><input type="submit" id="btnclose" class="btn btn-success btn-lg" onclick=close_msg("msg_frame") value="Close Message" style="padding:10px 40px;color:#fff"/></center></div>'+
+          "</div><div class='col-sm-3'></div></div>";
     div.innerHTML = msg;
-
     document.body.appendChild(div);
+    document.getElementById('btnclose').focus();
 }
 
 
@@ -54,6 +53,20 @@ function patch_url(x){
     var url = window.location.pathname.split( '/' );
     return host+'/'+url[x];
 }
+
+function full_url(){
+    var url      = window.location.href;
+    return url;
+}
+
+function segment(x){
+    var http = location.protocol;
+    var slashes = http.concat("//");
+    var host = slashes.concat(window.location.hostname);
+    var url = window.location.pathname.split( '/' );
+    return url[x];
+}
+
 
 
 function hex2a(hex) {
@@ -541,17 +554,48 @@ function md5_header(){
     return md5(jadi);
 }
 
+function rands(){
+    var st = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+    var str = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
+    var strs = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
+
+    return st+''+str+''+strs;
+}
+
 
 function g_encode(string){
+    for(a=1;a<=3;a++){
+        string = strrev(b64encode(string+rands()));
+    }
+    return b64encode(StrtoHex(string));
+}
+
+
+function g_decode(string){
+    var string = b64decode(string);
+     string = HextoStr(string);
+     strings = strrev(string);
+    for(a=1;a<=2;a++){
+        strings = strrev(b64decode(strings)).substring(3);
+    }
+    var tl = (b64decode(strings).length)-3;
+    var maning= b64decode(strings).substring(0,tl);
+    return maning;
+
+}
+
+function url_encode(string){
     var string = b64encode(string);
     string = strrev(string);
+    string = b64encode(string);
 
     return StrtoHex(string);
 }
 
 
-function g_decode(string){
+function url_decode(string){
     var string = HextoStr(string);
+    string = b64decode(string);
     string = strrev(string);
 
     return b64decode(string);
@@ -562,6 +606,11 @@ function setCookie(cname, cvalue, exdays) {
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function x_validate(){
+    var string = g_encode('banyumasweb');
+    return string;
 }
 
 function getCookie(cname) {
@@ -577,4 +626,20 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+
+function json_form(data){
+    var string = '{"data":[{';
+    var strings='';stringa='';
+    for(a=0;a<data.length;a++){
+        strings += '"'+data[a][0]+'":'+data[a][1]+',';
+    }
+    strings = strings.replace(/,+$/, '');
+    stringa +=string+''+strings+'}]}';
+    return g_encode(stringa);
+}
+
+function redirect(x){
+	window.location.replace(x);
 }

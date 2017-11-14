@@ -28,9 +28,16 @@ class Auth_user extends Session{
   *======================================
   */
 
-  public static function session($key,$value){
-      // $session = $this::getInstance();
-      // $session->$key = $value;
+  protected static function session($data){
+      $session = new Session;
+      if(is_array($data)){
+          foreach ($data as $key => $value) {
+              $user = $session->getInstance()->$key = $value;
+              return $user;
+          }
+      }else{
+          return false;
+      }
   }
 
 
@@ -39,7 +46,7 @@ class Auth_user extends Session{
   *@return remove array session
   *======================================
   */
-  public static function del_session($data){
+  protected static function del_session($data){
     if(is_array($data)){
         for($a=0;$a<count($data);$a++){
             unset($_SESSION[$key[$a]]);
@@ -54,14 +61,14 @@ class Auth_user extends Session{
   *======================================
   */
 
-  public static function view_session($data){
+  protected static function view_session($data){
       $data = isset($_SESSION[$data]);
       return $data;
   }
 
 
 
-  public static function userdata($value){
+  protected static function userdata($value){
       $session = new Session;
       $static = $session->__isset($value);
       return $static;
@@ -69,7 +76,7 @@ class Auth_user extends Session{
 
 
 
-  public static function set_user($data){
+  protected static function set_user($data){
       $session = new Session;
       if(is_array($data)){
           foreach ($data as $key => $value) {

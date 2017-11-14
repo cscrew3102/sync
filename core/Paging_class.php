@@ -9,7 +9,7 @@ class Paging_class extends Encrypt_class{
 
   protected $limit=10;
 
-  public static function pagging(){
+  protected static function pagging(){
       $start = $this::segment(3);
       if($start==''){
           $start=0;

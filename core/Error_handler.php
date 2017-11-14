@@ -21,7 +21,7 @@
 **/
 
 ini_set('log_error',1);
-ini_set('error_log','error_log.dat');
+// ini_set('error_log',LOG_FILE);
 
 require_once 'core/Basepath.php';
 require_once 'core/Encrypt_class.php';
@@ -30,7 +30,7 @@ class Error_handler extends Encrypt_class{
 
 
 
-    function __system_error($sync__errno=0, $sync__errstr='', $sync__errfile='undefined', $__errline='zero'){
+    protected function __system_error($sync__errno=0, $sync__errstr='', $sync__errfile='undefined', $__errline='zero'){
         if (!(error_reporting() & $sync__errno)) {
             // This error code is not included in error_reporting
             return;
@@ -47,25 +47,22 @@ class Error_handler extends Encrypt_class{
         switch ($sync__errno) {
 
         case E_USER_ERROR:
-            echo "<div class='error'><h3>ERROR PAGE</h3><p> [$sync__errno] $sync__errstr</p>\n";
-            echo "<p>Fatal error on line $sync__errline in file $sync__errfile</p>\n";
-            echo "<p>Aborting...</p>\n<div class='bg_error'></div></div>";
+            echo "<div style='width:100%;height:100%;position:fixed;top:0;left:0;background:#252525 url(".ASSETS."/images/404.gif);background-position:center;background-repeat:no-repeat' onclick=location.href='".ROOT_HOST."'></div>";
             exit(1);
             break;
 
         case E_USER_WARNING:
-            echo "<div class='error'><h3>WARNING ERROR</h3><p> [$sync__errno] $sync__errstr</p>\n";
-            echo "<p>Aborting...</p>\n<div class='bg_error'></div></div>";
+            echo "<div style='width:100%;height:100%;position:fixed;top:0;left:0;background:#252525 url(".ASSETS."/images/404.gif);background-position:center;background-repeat:no-repeat' onclick=location.href='".ROOT_HOST."'></div>";
             exit(1);
             break;
 
         case E_USER_NOTICE:
-            echo "<div style='width:100%;height:100%;position:fixed;top:0;left:0;background:#252525 url(".ROOT_HOST.'/'.ASSETS."/images/404.gif);background-position:center;background-repeat:no-repeat' onclick=location.href='".ROOT_HOST."'></div>";
+            echo "<div style='width:100%;height:100%;position:fixed;top:0;left:0;background:#252525 url(".ASSETS."/images/404.gif);background-position:center;background-repeat:no-repeat' onclick=location.href='".ROOT_HOST."'></div>";
             die();
+            break;
 
         default:
-            echo "<div class='error'><h3>UNKNOW ERROR TYPE</h3><p> [$sync__errno] $sync__errstr</p>\n";
-            echo "<p>Aborting...</p>\n<div class='bg_error'></div></div>";
+            echo "<div style='width:100%;height:100%;position:fixed;top:0;left:0;background:#252525 url(".ASSETS."/images/404.gif);background-position:center;background-repeat:no-repeat' onclick=location.href='".ROOT_HOST."'></div>";
             exit(1);
             break;
         }
@@ -76,17 +73,13 @@ class Error_handler extends Encrypt_class{
     }
 
 
-    public static function error_php(){
-          header("HTTP/1.0 404 Not Found");
-
-          echo '<html>
-              <head>
-                  <meta http-equiv="Refresh" content="0;url=http://www.mysite.com/index.php?code=404" />
-              </head><body></body>
-            </html>';
+    protected static function error_php(){
+          ob_flush();
+          echo "<div style='width:100%;height:100%;position:fixed;top:0;left:0;background:#252525 url(".ASSETS."/images/404.gif);background-position:center;background-repeat:no-repeat' onclick=location.href='".ROOT_HOST."'></div>";
+          die();
     }
 
-    public function error_query($error){
+    protected function error_query($error){
         throw new Exception($error.': '.mysql_error());
         $this::pesan_log($error.mysql_error());
 

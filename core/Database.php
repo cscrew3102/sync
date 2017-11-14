@@ -23,7 +23,9 @@ class Database{
 
 
 
-  public static function
+  public static function(){
+    
+  }
 
 
 

@@ -53,11 +53,11 @@ class Query_select extends form_class{
 
 
 
-	public function connect(){
+	protected function connect(){
 		return Connect::getConnection();
 	}
 
-	public function close(){
+	protected function close(){
 		Connect::close();
 	}
 
@@ -71,7 +71,7 @@ class Query_select extends form_class{
 	*===========================================================
 	*/
 
-	public static function insert_data($__tableName ='',$__data = array()){
+	protected static function insert_data($__tableName ='',$__data = array()){
 		if(is_array($__data)){
 				$dt='';$ds='';
 				$sql = "INSERT INTO `".$__tableName."` SET ";
@@ -107,7 +107,7 @@ class Query_select extends form_class{
 	*=========================================================================
 	*/
 
-	public static function update_data($tableName ='',$data = array(), $where = array()){
+	protected static function update_data($tableName ='',$data = array(), $where = array()){
 		$where_data ='';$fields='';
 		if($tableName!==''){
 
@@ -153,7 +153,7 @@ class Query_select extends form_class{
 	*/
 
 
-	function join($sync_array = '',$sync__str = array()){
+	protected function join($sync_array = '',$sync__str = array()){
 			$sync__array = array("INNER","FULL","RIGHT","LEFT","CROSS","OUTER","STRAIGHT","JOIN");
 			$sync__type = explode(" ",$sync__array);
 
@@ -188,7 +188,7 @@ class Query_select extends form_class{
 	*@return array data
 	*/
 
-	public static function delete_data($tableName, $where = array()){
+	protected static function delete_data($tableName, $where = array()){
 		$where_data='';
 		if($tableName!==''){
 				$sql = "DELETE FROM ".$tableName;
@@ -226,7 +226,7 @@ class Query_select extends form_class{
 	*@param $where is a condition query
 	*@return string array data
 	*/
-	public static function view_data($field = '',$tableName='',$where='',$order='',$start='',$limit=''){
+	protected static function view_data($field = '',$tableName='',$where='',$order='',$start='',$limit=''){
 			$paging='';
 			include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Select.php';
 			$data = '*';$wheres='';$where_data='';
@@ -252,7 +252,48 @@ class Query_select extends form_class{
 
 			if($start!=='' && $limit!==''){
 					$paging = " LIMIT ".$start.",".$limit;
-					$this::pagging();
+					// $this::pagging();
+			}
+			if(is_array($order)){
+					foreach ($order as $key => $value) {
+						$order_key=" ORDER BY ".$key.' '.$value;
+					}
+			}else{
+					$order_key='';
+			}
+			$sql = $sql.$wherea.$order_key.$paging;
+			if(defined('QUERY')){
+				ob_end_clean();
+				echo $sql;
+				die();
+			}
+
+			return new Select($sql);
+	}
+
+
+	protected static function find_data($field='*',$tableName='',$where='',$order=''){
+			include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Select.php';
+			$wheres='';
+			$paging='';
+			if(is_array($field)){
+				 foreach ($field as $value) {
+						 $data.=$value.',';
+				 }
+			}else{
+				 $data=$field;
+			}
+			$data = rtrim($data,',');
+			$sql = 'SELECT '.$data." FROM ".$tableName;
+
+			if(is_array($where)){
+					$wherea = " WHERE ";
+					foreach ($where as $key => $value) {
+							$wheres.= $key." LIKE'%".$value."%' OR ";
+					}
+					$wherea = $wherea.rtrim($wheres," OR ");
+			}else{
+					$wherea='';
 			}
 			if(is_array($order)){
 					$order_key=" ORDER BY ".$order[0].' '.$order[1];
@@ -270,8 +311,7 @@ class Query_select extends form_class{
 	}
 
 
-
-	public function select($field = array()){
+	protected function select($field = array()){
 			$st='';$sql = "SELECT ";
 			if(is_array($field)){
 
@@ -293,7 +333,7 @@ class Query_select extends form_class{
 
 
 
-	public function from($table=''){
+	protected function from($table=''){
 			$st = '';
 			$sql ="FROM ";
 			if($table!==''){
@@ -310,7 +350,7 @@ class Query_select extends form_class{
 
 
 
-	public function where_and($where = array()){
+	protected function where_and($where = array()){
 			$st='';
 			if(is_array($where)){
 					foreach ($where as $key => $value) {
@@ -327,7 +367,7 @@ class Query_select extends form_class{
 
 
 
-	public function where_or($where = array()){
+	protected function where_or($where = array()){
 			$st='';
 			if(is_array($where)){
 					foreach ($where as $key => $value) {

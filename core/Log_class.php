@@ -5,7 +5,7 @@ protected $log_file ="log.txt";
 
 
 
-public static function cek_log($filename){
+protected static function cek_log($filename){
 
     if(file_exists($filename)){
 
@@ -26,7 +26,7 @@ public static function cek_log($filename){
 
 
 
-public static function search_word($word){
+protected static function search_word($word){
 
       $file = 'somefile.txt';
       $searchfor = 'name';

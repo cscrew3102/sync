@@ -35,6 +35,45 @@ class Session extends Uri_file
     }
 
 
+    /*=============================================
+    set session name array
+    =============================================*/
+    public static function set_session($name = ''){
+        if(is_array($name)){
+            foreach ($name as $key=>$value) {
+                $_SESSION[$key] = $value;
+            }
+        }
+    }
+
+
+
+    /*
+    ============================================
+    get id session
+    to user you can do it
+    $this::get_userdata('value');
+    return session value
+    ============================================*/
+    public static function get_session($key = '')
+    {
+        if(isset($_SESSION[$key])){
+            return $_SESSION[$key];
+        }
+    }
+
+
+
+    public static function unset_session( $name ='' ){
+        if(is_array($name)){
+            foreach($name as $res){
+               unset( $_SESSION[$res] );
+            }
+        }else{
+            unset( $_SESSION[$name] );
+        }
+    }
+
 
     /**
     *    (Re)starts the session.
@@ -115,6 +154,6 @@ class Session extends Uri_file
 
         return FALSE;
     }
-    
+
 }
  ?>

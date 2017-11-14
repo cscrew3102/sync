@@ -24,7 +24,7 @@ require_once 'core/Error_handler.php';
 
 class form_class extends Error_handler{
 
-  function pesan_log($param){
+  protected function pesan_log($param){
       if(SQL_LOG == true){
           if(LOG_FILE !== ''){
               $file=LOG_FILE;
@@ -48,14 +48,13 @@ class form_class extends Error_handler{
     *@return true or false
     */
 
-    public function validate($post,$validate =''){
-        $post = $_POST[$post];
+    protected function validate_field($post,$validate =''){
+
         $pattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
         $array = explode("|",$validate);
-        if(count($array)>1){
             foreach ($array as $value) {
                 if($value === 'required'){
-                    if($post==''){return false;}
+                    if(strlen($post)<1){return false;}
                 }
                 elseif($value === 'number'){
                     if(!is_int($post)){return false;}
@@ -65,14 +64,14 @@ class form_class extends Error_handler{
                 }
                 elseif($value === 'email'){
                     if(filter_var($post, FILTER_VALIDATE_EMAIL) === false){return false;}
-                }elseif($value === "notag"){
+                }
+                elseif($value === "notag"){
                     return strip_tags($post);
                 }
                 else{
-                    return true;
+                    return $post;
                 }
             }
-        }
     }
 
 
@@ -83,22 +82,110 @@ class form_class extends Error_handler{
     *@return array post data
     */
 
-    public static function form_post($name ='',$validate=''){
+    protected static function form_post($name ='',$validate=''){
       if(!empty($_POST)){
           $data[] = $_POST ? $_POST:'';
-          if(!empty($data[0][$name])){
+          $post = $data[0][$name];
+          if(!empty($post)){
               if(is_array($validate)){
                   foreach ($validate as $value) {
-                      $this->validate($name,$value);
+                      if($value === 'required'){
+                          if(strlen($post)>0){return $post;}else{return false;}
+                      }elseif($value === 'number'){
+                          if(is_int($post)){return $post;}else{return false;}
+                      }elseif($value === 'alphabet'){
+                          if(preg_match("/^[a-zA-Z0-9]+$/", $post)){return $post;}else{return false;}
+                      }elseif($value === 'email'){
+                          if(!filter_var($post, FILTER_VALIDATE_EMAIL) === false){return $post;}
+                      }elseif($value === "notag"){
+                          return str_replace("<","",str_replace(">","",$post));
+                      }else{
+                          return $post;
+                      }
                   }
               }else{
                 $st__ =$data[0][$name];
                 return $st__;
               }
           }else{
-              return false;
+              return "";
           }
       }
+    }
+
+
+    protected static function form_validate($string='',$tipe=''){
+          $str_tipe = explode("|",$tipe);
+          if($tipe!=='' || count($str_tipe)>1){
+              foreach ($str_tipe as $value) {
+                  if($value === 'required'){
+                      if(strlen($string)<1){return false;}
+                  }
+                  elseif($value === 'number'){
+                      if(is_numeric($string)){return $string;}else{return false;}
+                  }
+                  elseif($value === 'alphabet'){
+                      if(!preg_match("/^[a-zA-Z0-9]+$/", $string)){return false;}
+                  }
+                  elseif($value === 'email'){
+                      if(filter_var($string, FILTER_VALIDATE_EMAIL) === false){return false;}
+                  }elseif($value === "notag"){
+                      if($string != strip_tags($string)){return false;}
+                  }
+                  else{
+                      return $string;
+                  }
+              }
+          }else{
+              return $string;
+          }
+      }
+
+
+
+    protected static function validate($string='',$tipe=''){
+        $str_tipe = explode("|",$tipe);
+        if($tipe!=='' && count($str_tipe)>0){
+            foreach ($str_tipe as $value) {
+                if($value === 'required'){
+                    if(empty($string)){return false;}else{return true;}
+                }
+                elseif($value === 'number'){
+                    if(!is_numeric($string)){return false;}else{return true;}
+                }
+                elseif($value === 'alphabet'){
+                    if(!ctype_alpha($string)){return false;}else{return true;}
+                }
+                elseif($value === 'alphanum'){
+                    if(!ctype_alnum($string)){return false;}else{return true;}
+                }
+                elseif($value === 'uppercase'){
+                    if(!ctype_upper($string)){return false;}else{return true;}
+                }
+                elseif($value === 'lowercase'){
+                    if(!ctype_lower($string)){return false;}else{return true;}
+                }
+                elseif($value === 'email'){
+                    if(filter_var($string, FILTER_VALIDATE_EMAIL) === false){return false;}else{return true;}
+                }
+                elseif($value === "notag"){
+                    if(strlen($string) != strlen(strip_tags($string))){return false;}else{return true;}
+                }
+            }
+        }else{
+            return true;
+        }
+    }
+
+
+
+    protected static function json_form($field,$validate=''){
+        $class = new Auth_file;
+        $request  = $class::g_decode($class::form_post('post'));
+        $data     = json_decode($request);
+        $result   = $data->data[0];
+        return $class::validate($result->$field,$validate);
+
     }
 
 
@@ -117,7 +204,7 @@ class form_class extends Error_handler{
 
 
 
-    public function image_creates($field_name = '', $target_folder = '', $file_name = '', $thumb = FALSE, $thumb_folder = '', $thumb_width = '', $thumb_height = ''){
+    protected function image_creates($field_name = '', $target_folder = '', $file_name = '', $thumb = FALSE, $thumb_folder = '', $thumb_width = '', $thumb_height = ''){
 
         //folder path setup
         $target_path = $target_folder;
@@ -145,8 +232,11 @@ class form_class extends Error_handler{
                 $thumbnail = $thumb_path.$fileName;
                 list($width,$height) = getimagesize($upload_image);
                 $thumb_create = imagecreatetruecolor($thumb_width,$thumb_height);
-                switch($file_ext){
+                switch(strtolower($file_ext)){
                     case 'jpg':
+                        $source = imagecreatefromjpeg($upload_image);
+                        break;
+                    case 'pjpg':
                         $source = imagecreatefromjpeg($upload_image);
                         break;
                     case 'jpeg':
@@ -165,7 +255,7 @@ class form_class extends Error_handler{
 
                 imagecopyresized($thumb_create,$source,0,0,0,0,$thumb_width,$thumb_height,$width,$height);
                 switch($file_ext){
-                    case 'jpg' || 'jpeg':
+                    case 'jpg' || 'jpeg' || 'pjpeg' || 'pjpeg' || 'JPEG' || 'JPG':
                         imagejpeg($thumb_create,$thumbnail,100);
                         break;
                     case 'png':
@@ -198,7 +288,7 @@ class form_class extends Error_handler{
     $this->upload(field_name,dir_name,file_name);
     ===========================================
     */
-    public  function upload($name='',$dir='uploads/',$filename='tumb',$tumneil=FALSE,$tumbdir='thumb/',$width='100',$height='100'){
+    protected  function upload($name='',$dir='uploads/',$filename='tumb',$tumneil=FALSE,$tumbdir='tumb/',$width='160',$height='100'){
       if(!empty($_FILES[$name]['name'])){
         $rnd = rand(111,999);
         //call thumbnail creation function and store thumbnail name
@@ -228,20 +318,16 @@ class form_class extends Error_handler{
     ==============================================
     return true or false
     */
-    public static function filter($field){
-        $string = wordwrap(strip_tags($field),20," ",1);
-        return $string;
+    protected static function filter($field){
+        $string = wordwrap(addslashes(strip_tags($field)),20," ",1);
+        return $string.'&nbsp;';
     }
 
 
-
-
-
-    public static function sort_key($input){
-        $string = addcslashes(trip_tags($input));
-        return $string;
+    protected static function notag($string){
+        $str = addslashes(strip_tags($string));
+        return $str;
     }
-
 
 
 
@@ -252,7 +338,7 @@ class form_class extends Error_handler{
     $this::b64_image('filename.jpg');
     ============================================
     */
-    public static function b64_images($filename){
+    protected static function b64_images($filename){
           $imgData = base64_encode(file_get_contents($filename));
           $src = 'data: '.mime_content_type($filename).';base64,'.$imgData;
           return $src;
@@ -267,7 +353,7 @@ class form_class extends Error_handler{
     ================================================
     */
 
-    public  function fileinfo($filename){
+    protected  function fileinfo($filename){
         $type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filename);
         return $type;
     }
@@ -282,13 +368,15 @@ class form_class extends Error_handler{
     ===============================================
     return example application/text
     */
-    public function mime_type($file, $encoding=true) {
+    protected function mime_type($file, $encoding=true) {
         $mime=false;
 
         if (function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME);
-            $mime = finfo_file($finfo, $file);
-            finfo_close($finfo);
+            if(file_exists($file)){
+              $mime = finfo_file($finfo, $file);
+              finfo_close($finfo);
+            }
         }
         else if (substr(PHP_OS, 0, 3) == 'WIN') {
             $mime = mime_content_type($file);
@@ -316,6 +404,24 @@ class form_class extends Error_handler{
     }
 
 
+    protected static function filter_image($file){
+        $mime = new Auth_file;
+        $info = strtolower($mime->mime_type($file,false));
+        if($info === 'image/jpeg' ||
+            $info === 'image/png' ||
+            $info === 'image/gif' ||
+            $info === 'image/svg+xml' ||
+            $info === 'image/tiff' ||
+            $info === 'image/bmp' ||
+            $info === 'image/pjpeg'){
+            return true;
+        }else{
+            if(file_exists($file)){
+              unlink($file);
+            }
+            return false;
+        }
+    }
     /*
     compress file to zip
     usage info
@@ -323,7 +429,7 @@ class form_class extends Error_handler{
     create_zip($files_to_zip,'my-archive.zip');
     ===========================================
     */
-    public static function create_zip($files = array(),$destination = '',$overwrite = false) {
+    protected static function create_zip($files = array(),$destination = '',$overwrite = false) {
     	if(file_exists($destination) && !$overwrite) { return false; }
     	$valid_files = array();
     	if(is_array($files)) {

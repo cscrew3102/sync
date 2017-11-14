@@ -30,9 +30,6 @@
 *@package free php framework
 */
 
-require_once 'app/config/config.php';
-
-
 
 
 /**
@@ -48,7 +45,8 @@ include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'Connect.php';
 *
 *============================== */
 $http='';
-if(@$_SERVER["HTTPS"]){$http = "https://";}else{$http ="http://";}
+if(@$_SERVER["HTTPS"]){$http = "https://".$_SERVER['HOST_NAME'];}else{$http ="http://".$_SERVER['HTTP_HOST'];}
+
 
 
 /**
@@ -56,17 +54,20 @@ if(@$_SERVER["HTTPS"]){$http = "https://";}else{$http ="http://";}
 *@param $server
 *@return dir root
 */
-define('ROOT_HOST', $http.$_SERVER['HTTP_HOST']);
+if(!empty(BASEURL)){
+    $base="/".BASEURL;
+}else{
+    $base='';
+}
+
+define('ROOT_HOST', $http.$base);
 
 
 
 
 
-/**
-*@param image dir system
-*@return image dir
-*/
-define('IMAGES',  ROOT_HOST.'/assets/images/');
+
+define('IMG_HOST',  $http.'img.'.str_replace("www.",'',$_SERVER['HTTP_HOST']));
 
 
 
@@ -86,7 +87,7 @@ define('CORE', ROOT_HOST.'/core/');
 *@param filename without .ext
 *@return load file
 *==================================*/
-define('CUSTOM',  ROOT_HOST.'/app/customs');
+define('CUSTOM',  ROOT_HOST.'/pages/custom');
 
 
 
@@ -96,3 +97,16 @@ define('CUSTOM',  ROOT_HOST.'/app/customs');
 *@return TRUE or FALSE
 */
 define('BASEPATH',  ROOT_HOST);
+
+
+/*
+define assets folder
+===========================================
+*/
+define('ASSETS',  ROOT_HOST.'/assets/');
+
+/*
+define assets folder
+===========================================
+*/
+define('IMAGES',  ASSETS.'img');

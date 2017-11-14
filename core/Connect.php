@@ -20,25 +20,20 @@
   *REDISTRIBUTED BY FREE LICENSE
 **/
 
-defined('DB_HOST') OR exit('No host defined for connection');
-
-
-
 
 /**
 *@param directory config file
 *@return connection stat
 */
-include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'../app/config/config.php';
+include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'../config.php';
 
 
 
-
-class Connect {
-
+class Connect{
 
 
-	protected static $_connection;
+
+	public static $_connection;
 
 
 
@@ -52,7 +47,7 @@ class Connect {
 				*@param error handler
 				*@return error message failer to connect to server db
 				*/
-				throw new Exception('Unable to connect to server. '.mysqli_connect_error());
+				throw new Exception('Unable to connect to server');
 			}
 		}
 		return self::$_connection;
