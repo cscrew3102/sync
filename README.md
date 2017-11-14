@@ -18,3 +18,32 @@ sedangkan untuk seluruh proses dapat anda tuliskan di file pages/model/index.php
 4.dengan penggunaan yang mudah karna semua controller sudah ditangani oleh core system sehingga anda tidak perlu lagi mendefinisikan file yang akan dipanggil.
 
 5.dengan membuat file dengan nama yang sama antara views,model, dan js seluruh file anda sudah terkoneksi secara otomatis karna core system sudah menangani hal tersebut.
+
+6.untuk membuat sub aplikasi anda hanya cukup membuat folder di dalam folder pages dengan nama yang sesuai dengan link yang akan anda panggil nantinya, misalnya administrator
+
+7.do dalam folder administrator tersebuta anda buat lagi folder dengan nama views,model, dan js persisi dengan nama folder diatasnya
+
+semisal isi js file untuk login
+==================================================================
+$("#login").click(function(){
+  $.ajax({
+	  type:'post',
+      url:full_url()+'/do_login',
+      headers: { 'x-validate':x_validate()}, // gunakan ini sebagai authentication
+      dataType:'json',
+      data:{
+          user:g_encode($("#user").val()),
+          pass:g_encode($("#pass").val())
+      },
+      success:function(response){
+			  if(response.status === 'success'){
+				  redirect('./');
+			  }else{
+				  error_msg(2,response.msg);
+			  }
+      }
+  })
+})
+
+================================================================
+maka data anda sudah terencript ketika dikirim dari client ke sisi server dan hacker tentunya akan lebih susah lagi untuk memecahkan kode encripter tersebut karna encription yang digunakan bukan encrytper standard
