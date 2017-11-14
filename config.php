@@ -8,7 +8,7 @@ change with your database name
 */
 // define('DB_NAME', 'smartexe_scania');
 
-define('DB_NAME', 'simdik');
+define('DB_NAME', 'nama database');
 
 // define('DB_NAME', 'wikisata_dbperdana');
 
@@ -26,7 +26,7 @@ change with your user database access
 */
 // define('DB_USER',   'wikisata_qedvo');
 
-define('DB_USER',   'wahana');
+define('DB_USER',   'user database');
 
 // define('DB_USER',   'banyuma1_qedvo');
 
@@ -37,7 +37,7 @@ change with your database password
 */
 // define('DB_PASS',   'B4n4uM4sW3bd0T');
 
-define('DB_PASS',   'w4h4n4');
+define('DB_PASS',   'password database');
 
 // define('DB_PASS',   'B4n4uM4sW3bd0T');
 
@@ -51,11 +51,11 @@ define('BASEURL','smkmaarif');
 =======================================
 jika ingin membuat subdir maka definisikan disini dengan pemisah spasi
 ========================================*/
-define('DIR_ROOT','staff users');
+define('DIR_ROOT','admin staff');
 
 
 
-define('WEB_TITLE', 'SMK MAARIF AJIBARANG');
+define('WEB_TITLE', 'SAMPLE WEB TITLE');
 
 
 /* administrator path url
@@ -64,7 +64,7 @@ change with your admin path
 ==================================
 */
 
-define('ADMIN', 'wikisatateam');
+define('ADMIN', 'adminweb');
 
 
 /* favicon
@@ -76,20 +76,20 @@ define('FAVICON', 'wiki2a.png');
 
 
 
-define('DESCRIPTION','');
+define('DESCRIPTION','write your web description here');
 
 /* favicon
 ==================================
 change with your path name favicon
 ==================================
 */
-define('KEYWORD', '');
+define('KEYWORD', 'write your keyword here');
 
 /*
 meta author
 you can change it if you wan use your company
 ================================================*/
-define('AUTHOR',  'Wikisata Team');
+define('AUTHOR',  'write an author here');
 
 
 /* error reporting true default
