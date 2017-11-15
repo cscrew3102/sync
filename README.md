@@ -1,5 +1,6 @@
 # sync
 sync php framework
+===========================================================================================
 
 untuk pemasangan cukup buat file di dalam folder pages/views/index.php
 
@@ -23,27 +24,4 @@ sedangkan untuk seluruh proses dapat anda tuliskan di file pages/model/index.php
 
 7.do dalam folder administrator tersebuta anda buat lagi folder dengan nama views,model, dan js persisi dengan nama folder diatasnya
 
-semisal isi js file untuk login
-==================================================================
-$("#login").click(function(){
-  $.ajax({
-	  type:'post',
-      url:full_url()+'/do_login',
-      headers: { 'x-validate':x_validate()}, // gunakan ini sebagai authentication
-      dataType:'json',
-      data:{
-          user:g_encode($("#user").val()),
-          pass:g_encode($("#pass").val())
-      },
-      success:function(response){
-			  if(response.status === 'success'){
-				  redirect('./');
-			  }else{
-				  error_msg(2,response.msg);
-			  }
-      }
-  })
-})
 
-================================================================
-maka data anda sudah terencript ketika dikirim dari client ke sisi server dan hacker tentunya akan lebih susah lagi untuk memecahkan kode encripter tersebut karna encription yang digunakan bukan encrytper standard
