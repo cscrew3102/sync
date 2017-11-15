@@ -1,12 +1,12 @@
 $("#button_save").click(function(){
   $.ajax({
     type:'post',
-      url:full_url()+'/do_login',
+      url:full_url()+'/save_data',
       headers: { 'x-validate':x_validate()},
       dataType:'json',
       data:{
-          user:g_encode($("#user").val()),
-          pass:g_encode($("#pass").val())
+          user:g_encode($("#foo").val()),
+          pass:g_encode($("#bar").val())
       },
       success:function(response){
           if(response.status ==='success'){
