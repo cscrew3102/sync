@@ -5,9 +5,10 @@ untuk pemasangan cukup buat file di dalam folder pages/views/index.php
 atur file config dan sesuaikan nama folder anda
 
 // kosongkan jika folder ada dalam root html
+
 define('BASEURL','sync');
-/* 
-jika ingin membuat subdir maka definisikan disini dengan pemisah spasi*/
+/* jika ingin membuat subdir maka definisikan disini dengan pemisah spasi*/
+
 define('DIR_ROOT','admin staff');
 
 di file index yang ada di view adalah untuk design template keseluruhan serta cukup menggunakan modal bawaan bootstrap 
