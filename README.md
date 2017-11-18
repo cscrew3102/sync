@@ -47,7 +47,7 @@ foreach($query as $result){
     echo $result->field;
 }
 ```
-** untuk menampilkan error query**
+**untuk menampilkan error query**
 ```
 define('QUERY',TRUE);
 ``
