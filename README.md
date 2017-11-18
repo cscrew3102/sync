@@ -4,12 +4,14 @@ sync php framework
 untuk pemasangan cukup buat file di dalam folder pages/views/index.php.
 atur file config dan sesuaikan nama folder anda.
 
-// kosongkan jika folder ada dalam root html.
+kosongkan jika folder ada dalam root html
+```
 define('BASEURL','sync');.
-
-/* jika ingin membuat subdir maka definisikan disini dengan pemisah spasi*/.
+```
+jika ingin membuat subdir maka definisikan disini dengan pemisah spasi
+```
 define('DIR_ROOT','admin staff');
-
+```
 di file index yang ada di view adalah untuk design template keseluruhan serta cukup menggunakan modal bawaan bootstrap. 
 sehingga membuat form edit akan lebih mudah
 
@@ -30,4 +32,18 @@ sedangkan untuk seluruh proses dapat anda tuliskan di file pages/model/index.php
 
 7.do dalam folder administrator tersebuta anda buat lagi folder dengan nama views,model, dan js persisi dengan nama folder diatasnya
 
+**simple query
 
+get one row data
+```
+$query=$this::view_data('*','tabel',array('id'=>"'$id'"));
+$result = $query->current();
+```
+
+get all data looping
+```
+$query = $this::view_data('*','tabel',array('id'=>"'$id'"));
+foreach($query as $result){
+    echo $result->field;
+}
+```
