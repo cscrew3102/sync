@@ -61,15 +61,22 @@ $("#login_siswa").click(function(){
   })
 })
 ```
-get your data model
+**get your data model**
 ```
 $this::form_post('field');
 ```
-to decode your encoded post
+**get your link post**
+```
+$url = $this::last_segment();
+if($url === 'do_login' && $this::ajax_request()){
+	//get your post field here
+}
+```
+**to decode your encoded post**
 ```
 $this::g_decode($field_post);
 ```
-session authentication
+**session authentication**
 ```
 $this::user_auth('session_name',ROOT_HOST.'/login');
 ```
