@@ -68,3 +68,7 @@ to decode your encoded post
 ```
 $this::g_decode($field_post);
 ```
+session authentication
+```
+$this::user_auth('session_name',ROOT_HOST.'/login');
+```
