@@ -80,3 +80,16 @@ $this::g_decode($field_post);
 ```
 $this::user_auth('session_name',ROOT_HOST.'/login');
 ```
+set session
+```
+$this::set_session(
+	array(
+		'id'=>'session value',
+		'name'=>'session value'
+	     )
+	}
+```
+get session
+```
+$this::get_session('session name');
+```
