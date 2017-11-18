@@ -1,4 +1,4 @@
-sync php framework
+sync framework v.1.0
 ===========================================================================================
 edit config file on root dir
 
@@ -60,4 +60,11 @@ $("#login_siswa").click(function(){
   })
 })
 ```
-
+get your data model
+```
+$this::form_post('field');
+```
+to decode your encoded post
+```
+$this::g_decode($field_post);
+```
