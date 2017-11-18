@@ -36,6 +36,7 @@ foreach($query as $result){
 ```
 **view error query**
 ```
+write this above your query
 define('QUERY',TRUE);
 ```
 **ajax request**
