@@ -32,7 +32,7 @@ sedangkan untuk seluruh proses dapat anda tuliskan di file pages/model/index.php
 
 7.do dalam folder administrator tersebuta anda buat lagi folder dengan nama views,model, dan js persisi dengan nama folder diatasnya
 
-**simple query
+**simple query**
 
 get one row data
 ```
