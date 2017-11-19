@@ -1,26 +1,95 @@
-sync php framework
+sync framework v.1.0
 ===========================================================================================
+edit config file on root dir
 
-untuk pemasangan cukup buat file di dalam folder pages/views/index.php
+```
+define('BASEURL','sync'); //leave blank if your project in root dir
+```
+create sub app
+```
+define('DIR_ROOT','admin staff');  // just separate with spaces
+```
+model authentication
+```
+define('BASEPATH')OR exit('exception alert');
+```
 
-di file index yang ada di view adalah untuk design template keseluruhan serta cukup menggunakan modal bawaan bootstrap 
-sehingga membuat form edit akan lebih mudah
+**simple query**
 
-untuk perintah javascript cukup buat file di pages/js dengan extensi pages/js/index.js
-sedangkan untuk seluruh proses dapat anda tuliskan di file pages/model/index.php
+get one row data
+```
+$query=$this::view_data('*','tabel',array('id'=>"'$id'"));
+$result = $query->current();
+```
+you can used basic query to
+```
+$query=$this::view_data('*',"tabel WHERE id='$id'");
+$result = $query->current();
+```
 
-1.framework ini dirancang untuk seluruh pengiriman data menggunakan format json sehingga akan lebih ringan dan cepat dalah pengiriman data dan tidak mmebutuhkan jaringan internet yang besar jika sudah online.
-
-2.framework dirancang dengan pengiriman data yang ter encryption sehingga proses pengiriman data dari server ke client maupun dari client ke server dalam kondisi data ter encrytion sehingga pengguna akan merasa lebih aman.
-
-3.core framework ini dirancang untuk bisa menangani beberapa aplikasi sekaligus sehingga ukuran file tidak membengkak karna adanya core yang menumpuk dan secara otomatis akan lebih hemat space.
-
-4.dengan penggunaan yang mudah karna semua controller sudah ditangani oleh core system sehingga anda tidak perlu lagi mendefinisikan file yang akan dipanggil.
-
-5.dengan membuat file dengan nama yang sama antara views,model, dan js seluruh file anda sudah terkoneksi secara otomatis karna core system sudah menangani hal tersebut.
-
-6.untuk membuat sub aplikasi anda hanya cukup membuat folder di dalam folder pages dengan nama yang sesuai dengan link yang akan anda panggil nantinya, misalnya administrator
-
-7.do dalam folder administrator tersebuta anda buat lagi folder dengan nama views,model, dan js persisi dengan nama folder diatasnya
-
-
+get all data looping
+```
+$query = $this::view_data('*','tabel',array('id'=>"'$id'"));
+foreach($query as $result){
+    echo $result->field;
+}
+```
+**view error query**
+```
+write this above your query
+define('QUERY',TRUE);
+```
+**ajax request**
+```
+$("#login_siswa").click(function(){
+  $.ajax({
+	  type:'post',
+      url:full_url()+'/do_login',
+      headers: { 'x-validate':x_validate()},
+      dataType:'json',
+      data:{
+          user:g_encode($("#user").val()),
+          pass:g_encode($("#pass").val())
+      },
+      success:function(response){
+			if(response.status === 'success'){
+				redirect('./');
+			}else{
+				error_msg(2,response.msg);
+			}
+      }
+  })
+})
+```
+**get your data model**
+```
+$this::form_post('field');
+```
+**get your link post**
+```
+$url = $this::last_segment();
+if($url === 'do_login' && $this::ajax_request()){
+	//get your post field here
+}
+```
+**to decode your encoded post**
+```
+$this::g_decode($field_post);
+```
+**session authentication**
+```
+$this::user_auth('session_name',ROOT_HOST.'/login');
+```
+set session
+```
+$this::set_session(
+	array(
+		'id'=>'session value',
+		'name'=>'session value'
+	     )
+	}
+```
+get session
+```
+$this::get_session('session name');
+```
