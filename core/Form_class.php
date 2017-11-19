@@ -85,7 +85,7 @@ class form_class extends Error_handler{
     protected static function form_post($name ='',$validate=''){
       if(!empty($_POST)){
           $data[] = $_POST ? $_POST:'';
-          $post = $data[0][$name];
+          $post = addslashes($data[0][$name]);
           if(!empty($post)){
               if(is_array($validate)){
                   foreach ($validate as $value) {
@@ -104,7 +104,7 @@ class form_class extends Error_handler{
                       }
                   }
               }else{
-                $st__ =$data[0][$name];
+                $st__ = addslashes($data[0][$name]);
                 return $st__;
               }
           }else{

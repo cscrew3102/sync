@@ -1,11 +1,19 @@
-<button type="button">add data</button>
+<?php
+$query = $this::view_data('*','system_calltype');
+foreach ($query as $value) {
 
-<table id="tabel_data">
-  <thead>
-    <tr>
-      <th>title1</th><th>title2</th><th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+    $query1 = $this::view_data('date(date_time) as tot, HOUR(date_time) as hour',
+                              "data_transaction group by hour(date_time)");
+    $data = array();
+    foreach ($query1 as $result) {
+        $data[]=array(
+            'jam'=>$result->hour,
+            'tot'=>$result->tot
+        );
+    }
+    $info[] = array(
+        'data'=>$data
+    );
+}
+$this::clean_json($info);
+ ?>

@@ -8,7 +8,7 @@ change with your database name
 */
 // define('DB_NAME', 'smartexe_scania');
 
-define('DB_NAME', 'nama database');
+define('DB_NAME', 'smarttariff_web_latest');
 
 // define('DB_NAME', 'wikisata_dbperdana');
 
@@ -17,7 +17,7 @@ define('DB_NAME', 'nama database');
 change with your host name configuration
 ========================================
 */
-define('DB_HOST',  'localhost');
+define('DB_HOST',  '192.168.1.68');
 
 /* database user
 =====================================
@@ -26,7 +26,7 @@ change with your user database access
 */
 // define('DB_USER',   'wikisata_qedvo');
 
-define('DB_USER',   'user database');
+define('DB_USER',   'smart');
 
 // define('DB_USER',   'banyuma1_qedvo');
 
@@ -35,16 +35,13 @@ define('DB_USER',   'user database');
 change with your database password
 ==================================
 */
-// define('DB_PASS',   'B4n4uM4sW3bd0T');
 
-define('DB_PASS',   'password database');
-
-// define('DB_PASS',   'B4n4uM4sW3bd0T');
+define('DB_PASS',   '5m4rt');
 
 
 
 // kosongkan jika folder ada dalam root html
-define('BASEURL','smkmaarif');
+define('BASEURL','sync');
 
 
 /* DIR_ROOT

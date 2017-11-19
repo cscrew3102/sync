@@ -1,6 +1,7 @@
 <?php
+$_SESSION['nis']="sad";
 defined('BASEPATH')OR exit('not direct script access allowed');
-$this::user_auth('sesssion_name');
+$this::user_auth('nis');
 
 $url = $this::last_segment();
 if($url === 'save_data' && $this::ajax_request()){
