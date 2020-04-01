@@ -6,11 +6,8 @@ database name
 change with your database name
 ================================
 */
-// define('DB_NAME', 'smartexe_scania');
 
 define('DB_NAME', 'databasename');
-
-// define('DB_NAME', 'wikisata_dbperdana');
 
 /* host name
 ========================================
@@ -24,11 +21,8 @@ define('DB_HOST',  'host');
 change with your user database access
 =====================================
 */
-// define('DB_USER',   'wikisata_qedvo');
 
 define('DB_USER',   'user');
-
-// define('DB_USER',   'banyuma1_qedvo');
 
 /* database password
 ==================================
@@ -48,7 +42,7 @@ define('BASEURL','sync');
 =======================================
 jika ingin membuat subdir maka definisikan disini dengan pemisah spasi
 ========================================*/
-define('DIR_ROOT','admin staff');
+define('DIR_ROOT','contoh1 contoh2');
 
 
 
@@ -61,7 +55,7 @@ change with your admin path
 ==================================
 */
 
-define('ADMIN', 'adminweb');
+define('ADMIN', 'contohadmin');
 
 
 /* favicon
