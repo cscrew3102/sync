@@ -8,7 +8,7 @@ change with your database name
 */
 // define('DB_NAME', 'smartexe_scania');
 
-define('DB_NAME', 'smarttariff_web_latest');
+define('DB_NAME', 'databasename');
 
 // define('DB_NAME', 'wikisata_dbperdana');
 
@@ -17,7 +17,7 @@ define('DB_NAME', 'smarttariff_web_latest');
 change with your host name configuration
 ========================================
 */
-define('DB_HOST',  '192.168.1.68');
+define('DB_HOST',  'host');
 
 /* database user
 =====================================
@@ -26,7 +26,7 @@ change with your user database access
 */
 // define('DB_USER',   'wikisata_qedvo');
 
-define('DB_USER',   'smart');
+define('DB_USER',   'user');
 
 // define('DB_USER',   'banyuma1_qedvo');
 
@@ -36,7 +36,7 @@ change with your database password
 ==================================
 */
 
-define('DB_PASS',   '5m4rt');
+define('DB_PASS',   'password');
 
 
 
